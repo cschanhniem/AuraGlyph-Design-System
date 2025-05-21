@@ -107,7 +107,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     } = useQuantum({
       id: quantumId,
       entanglement,
-      onInteraction: (state) => {
+      onInteraction: () => {
         // Optional callback for interaction state changes
       },
     });

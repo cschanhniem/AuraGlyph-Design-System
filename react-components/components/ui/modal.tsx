@@ -43,11 +43,10 @@ const ModalClose = DialogPrimitive.Close;
 
 // Modal portal for rendering outside the DOM hierarchy
 const ModalPortal = ({
-  className,
   children,
   ...props
 }: DialogPrimitive.DialogPortalProps) => (
-  <DialogPrimitive.Portal className={cn(className)} {...props}>
+  <DialogPrimitive.Portal {...props}>
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {children}
     </div>
@@ -148,7 +147,7 @@ const ModalContent = React.forwardRef<
 
     // React to outside clicks
     const handleInteractOutside = React.useCallback(
-      (e: React.PointerEvent) => {
+      (e: any) => {
         if ((quantumProp || variant !== "default")) {
           emitInteraction("backdrop", 0.5);
         }
@@ -280,9 +279,7 @@ const ModalContent = React.forwardRef<
             emitInteraction("escape", 0.5);
             props.onEscapeKeyDown?.(e);
           }}
-          onPointerDownOutside={(e) => {
-            onPointerDownOutside?.(e);
-          }}
+          onPointerDownOutside={onPointerDownOutside}
           onInteractOutside={handleInteractOutside}
           className={cn(
             "fixed z-50 bg-background shadow-lg border",

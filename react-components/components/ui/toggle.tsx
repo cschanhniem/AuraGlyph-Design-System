@@ -11,7 +11,7 @@ export interface ToggleProps
   
   // Quantum props
   quantum?: boolean;
-  variant?: "default" | "quantum" | "frost" | "nebula" | "crystal";
+  variant?: "default" | "quantum" | "frost" | "nebula" | "crystal" | "glass";
   depth?: "shallow" | "medium" | "deep";
   luminance?: "low" | "medium" | "high";
   clarity?: "low" | "medium" | "high";

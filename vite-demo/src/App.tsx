@@ -457,7 +457,7 @@ function App() {
                       <ModalTrigger asChild>
                         <Button quantum variant="quantum">Open Quantum Modal</Button>
                       </ModalTrigger>
-                      <ModalContent quantum variant="quantum">
+                      <ModalContent quantum variant="nebula">
                         <ModalHeader>
                           <ModalTitle>Quantum Modal</ModalTitle>
                           <ModalDescription>This is a modal with quantum effects.</ModalDescription>

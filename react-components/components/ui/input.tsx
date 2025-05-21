@@ -6,7 +6,7 @@ export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   // Quantum props
   quantum?: boolean;
-  variant?: "default" | "quantum" | "frost" | "nebula" | "crystal";
+  variant?: "default" | "quantum" | "frost" | "nebula" | "crystal" | "glass";
   depth?: "shallow" | "medium" | "deep";
   luminance?: "low" | "medium" | "high";
   clarity?: "low" | "medium" | "high";
@@ -50,14 +50,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       ref: quantumRef, 
       cssVariables, 
       emitInteraction, 
-      energy, 
-      phase,
+      energy,
       containerRef 
     } = useQuantum({
       id: quantumId,
       entanglement,
       initialState: { energyLevel: 0.3, phase: 0.2 },
-      onInteraction: (state) => {
+      onInteraction: () => {
         // Optional callback for interaction state changes
       },
     });
@@ -65,8 +64,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     // Local state
     const [isFocused, setIsFocused] = React.useState(false);
     const [isHovered, setIsHovered] = React.useState(false);
-    const [inputValue, setInputValue] = React.useState("");
-
     // Container for the enhanced input
     const inputContainerRef = containerRef;
 
@@ -113,7 +110,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     const handleChange = React.useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputValue(e.target.value);
         if (quantumProp || variant !== "default") {
           // Emit different interaction based on input length/content
           const strength = Math.min(0.3 + e.target.value.length * 0.02, 0.9);

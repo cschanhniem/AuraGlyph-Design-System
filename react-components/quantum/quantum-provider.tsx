@@ -76,7 +76,7 @@ const QuantumContext = createContext<QuantumContextType>({
   options: {
     contextSensitivity: 0.5,
     adaptability: 0.7,
-    quantumEffectsLevel: 'standard',
+    quantumEffectsLevel: 'standard' as const,
     debug: false
   },
   setEnergy: () => {},
@@ -124,7 +124,7 @@ export const QuantumProvider: React.FC<{
   const mergedOptions = useMemo(() => ({
     contextSensitivity: 0.5,
     adaptability: 0.7,
-    quantumEffectsLevel: 'standard',
+    quantumEffectsLevel: 'standard' as const,
     debug: false,
     ...options
   }), [options]);
