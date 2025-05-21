@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .quantum-theme {
+    /* Base theme colors */
+    --quantum-base-50: 0 0% 95%;
+    --quantum-base-100: 0 0% 90%;
+    --quantum-base-200: 0 0% 80%;
+    --quantum-base-300: 0 0% 70%;
+    --quantum-base-400: 0 0% 60%;
+    --quantum-base-500: 0 0% 50%;
+    --quantum-base-600: 0 0% 40%;
+    --quantum-base-700: 0 0% 30%;
+    --quantum-base-800: 0 0% 20%;
+    --quantum-base-900: 0 0% 10%;
+
+    /* Quantum state colors */
+    --quantum-state-energy: 222.2 47.4% 11.2%;
+    --quantum-state-phase: 262.1 83.3% 57.8%;
+    --quantum-state-coherence: 142.1 76.2% 36.3%;
+    --quantum-state-observability: 199.2 88.7% 48.4%;
+
+    /* Emotional state colors */
+    --quantum-emotion-positive: 142.1 76.2% 36.3%;
+    --quantum-emotion-negative: 346.8 77.2% 49.8%;
+    --quantum-emotion-neutral: 231.6 15.3% 52%;
+    --quantum-emotion-excited: 35.5 91.7% 54.9%;
+    --quantum-emotion-calm: 199.2 88.7% 48.4%;
+
+    /* Material properties */
+    --quantum-material-opacity: 0.8;
+    --quantum-material-blur: 8px;
+    --quantum-material-saturation: 1.2;
+    --quantum-material-hue-rotate: 0deg;
+
+    /* Animation timing */
+    --quantum-animation-duration: 300ms;
+    --quantum-animation-timing: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Theme variables used by Tailwind config */
+    --quantum-primary: var(--primary);
+    --quantum-secondary: var(--secondary);
+    --quantum-accent: var(--accent);
+    --quantum-background: var(--background);
+    --quantum-foreground: var(--foreground);
+    --quantum-border: var(--border);
+    --quantum-ring: var(--ring);
+  }
+
+  .quantum-theme.dark {
+    /* Dark mode overrides */
+    --quantum-base-50: 0 0% 10%;
+    --quantum-base-100: 0 0% 15%;
+    --quantum-base-200: 0 0% 20%;
+    --quantum-base-300: 0 0% 30%;
+    --quantum-base-400: 0 0% 40%;
+    --quantum-base-500: 0 0% 50%;
+    --quantum-base-600: 0 0% 60%;
+    --quantum-base-700: 0 0% 70%;
+    --quantum-base-800: 0 0% 80%;
+    --quantum-base-900: 0 0% 90%;
+
+    /* Adjust state colors for dark mode */
+    --quantum-state-energy: 222.2 47.4% 70%;
+    --quantum-state-phase: 262.1 83.3% 70%;
+    --quantum-state-coherence: 142.1 76.2% 70%;
+    --quantum-state-observability: 199.2 88.7% 70%;
+
+    /* Adjust emotional colors for dark mode */
+    --quantum-emotion-positive: 142.1 76.2% 70%;
+    --quantum-emotion-negative: 346.8 77.2% 70%;
+    --quantum-emotion-neutral: 231.6 15.3% 70%;
+    --quantum-emotion-excited: 35.5 91.7% 70%;
+    --quantum-emotion-calm: 199.2 88.7% 70%;
+
+    /* Adjust material properties */
+    --quantum-material-opacity: 0.6;
+    --quantum-material-blur: 12px;
+    --quantum-material-saturation: 0.8;
+    --quantum-material-hue-rotate: 180deg;
+  }
+}
+
+@layer components {
+  /* Theme-based component styles */
+  .quantum-theme .quantum-primary {
+    @apply bg-[hsl(var(--quantum-primary))] text-[hsl(var(--quantum-foreground))];
+  }
+
+  .quantum-theme .quantum-secondary {
+    @apply bg-[hsl(var(--quantum-background))] text-[hsl(var(--quantum-foreground))];
+  }
+
+  .quantum-theme .quantum-accent {
+    @apply bg-[hsl(var(--accent))] text-[hsl(var(--accent-foreground))];
+  }
+
+  .quantum-theme .quantum-border {
+    @apply border-[hsl(var(--border))];
+  }
+
+  .quantum-theme .quantum-ring {
+    @apply ring-[hsl(var(--ring))];
+  }
+}
+
+@layer utilities {
+  /* Theme-based utility classes */
+  .quantum-theme .quantum-state-color {
+    color: hsl(var(--quantum-state-energy));
+  }
+
+  .quantum-theme .quantum-emotion-color {
+    color: hsl(var(--quantum-emotion-neutral));
+  }
+
+  .quantum-theme .quantum-material-effect {
+    opacity: var(--quantum-material-opacity);
+    backdrop-filter: 
+      blur(var(--quantum-material-blur))
+      saturate(var(--quantum-material-saturation))
+      hue-rotate(var(--quantum-material-hue-rotate));
+  }
+}

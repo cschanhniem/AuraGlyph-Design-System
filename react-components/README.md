@@ -1,358 +1,273 @@
-# AuraGlyph Design System - React
+# Quantum UI React Components
 
-![AuraGlyph](https://via.placeholder.com/1200x300?text=AuraGlyph+Design+System)
+A modern UI component library with quantum-inspired interactions and animations.
 
-> AuraGlyph - Hệ thống thiết kế lượng tử định hình ngôn ngữ thị giác, không gian và đạo đức của thập kỷ 2025-2035.
+## Features
 
-## Giới thiệu
+- 🌌 Quantum-inspired animations and effects
+- 🎨 Customizable themes and variants
+- 🧬 State entanglement between components
+- 🎭 Emotional response system
+- 🔮 Predictive interactions
+- ⚡ High-performance animations
+- 🎯 Accessibility-first design
+- 🌓 Dark mode support
 
-AuraGlyph là hệ thống thiết kế tiên phong, phát triển từ Glassmorphism thành một "sinh vật thiết kế" thông minh và có khả năng thích ứng. Với triết lý dựa trên nguyên lý lượng tử, AuraGlyph tạo ra các giao diện động, tương tác và có ý thức, mang lại trải nghiệm người dùng sâu sắc và trực quan.
-
-### Tính năng nổi bật
-
-- **Vật liệu Lượng tử**: Các bề mặt phản ứng với tương tác và ngữ cảnh
-- **Hệ thống Entanglement**: Các thành phần UI có thể liên kết và tương tác với nhau
-- **Ngữ cảnh Thích ứng**: Giao diện điều chỉnh theo môi trường và người dùng
-- **API Dễ tiếp cận**: Xây dựng trên nền tảng shadcn/ui, dễ dàng áp dụng
-- **Hiệu suất cao**: Được tối ưu hóa cho hiệu suất và khả năng mở rộng
-
-## Cài đặt
+## Installation
 
 ```bash
-# Sử dụng npm
-npm install @auraglyph/react
+# Using npm
+npm install @quantum-ui/react
 
-# Sử dụng yarn
-yarn add @auraglyph/react
+# Using yarn
+yarn add @quantum-ui/react
 
-# Sử dụng pnpm
-pnpm add @auraglyph/react
+# Using pnpm
+pnpm add @quantum-ui/react
 ```
 
-### Cài đặt dependencies
+## Quick Start
 
-AuraGlyph yêu cầu một số dependencies để hoạt động đầy đủ:
-
-```bash
-# Tailwind CSS và các plugins
-npm install tailwindcss-animate class-variance-authority tailwind-merge clsx
-
-# React libraries
-npm install @radix-ui/react-slot @react-spring/web
+1. Import the styles in your app:
+```tsx
+import '@quantum-ui/react/styles/quantum.css';
+import '@quantum-ui/react/styles/quantum-theme.css';
 ```
 
-### Cấu hình Tailwind CSS
+2. Configure Tailwind CSS:
+```ts
+// tailwind.config.ts
+import { quantumPlugin } from '@quantum-ui/react/lib/quantum-plugin';
 
-Cập nhật file `tailwind.config.js` của bạn:
-
-```js
-// tailwind.config.js
-module.exports = {
-  darkMode: ["class"],
-  content: [
-    // ... your content paths
-    "./node_modules/@auraglyph/react/**/*.{js,ts,jsx,tsx}", // Add this line
-  ],
-  plugins: [
-    require("tailwindcss-animate"),
-    // ... your other plugins
-  ],
+export default {
+  // ...other config
+  plugins: [quantumPlugin],
 }
 ```
 
-## Cách sử dụng cơ bản
+3. Wrap your app with QuantumProvider:
+```tsx
+import { QuantumProvider } from '@quantum-ui/react';
 
-### 1. Thiết lập QuantumProvider
-
-```jsx
-// _app.jsx / _app.tsx
-import { QuantumProvider } from '@auraglyph/react';
-import '@auraglyph/react/styles.css'; // Import styles
-
-function MyApp({ Component, pageProps }) {
+function App() {
   return (
-    <QuantumProvider options={{ 
-      adaptability: 0.7,
-      quantumEffectsLevel: 'standard'
-    }}>
-      <Component {...pageProps} />
+    <QuantumProvider>
+      {/* Your app content */}
     </QuantumProvider>
   );
 }
-
-export default MyApp;
 ```
 
-### 2. Sử dụng các thành phần Quantum
-
-```jsx
-import { Button, Card, CardHeader, CardContent, CardFooter } from '@auraglyph/react';
-
-function MyComponent() {
-  return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-6">AuraGlyph Demo</h1>
-      
-      <Card 
-        quantum
-        variant="nebula"
-        className="max-w-md mx-auto mb-8"
-      >
-        <CardHeader>
-          <h2 className="text-xl font-semibold">Quantum Card</h2>
-        </CardHeader>
-        <CardContent>
-          <p>Thẻ này sử dụng vật liệu lượng tử "nebula" với hiệu ứng quantum.</p>
-        </CardContent>
-        <CardFooter>
-          <Button quantum variant="quantum-frost">
-            Quantum Button
-          </Button>
-        </CardFooter>
-      </Card>
-    </div>
-  );
-}
-```
-
-### 3. Entanglement giữa các thành phần
-
-```jsx
-function EntanglementDemo() {
-  return (
-    <div className="flex gap-8">
-      <Button 
-        quantum 
-        quantumId="button-1"
-        entanglement={["button-2"]}
-        variant="quantum-nebula"
-      >
-        Button 1
-      </Button>
-      
-      <Button 
-        quantum 
-        quantumId="button-2"
-        entanglement={["button-1"]}
-        variant="quantum-frost"
-      >
-        Button 2
-      </Button>
-    </div>
-  );
-}
-```
-
-## Tài liệu Component
+## Components
 
 ### Button
+```tsx
+import { Button } from '@quantum-ui/react';
 
-Button với hiệu ứng lượng tử và khả năng tương tác cao.
+// Basic usage
+<Button>Click me</Button>
 
-```jsx
+// Quantum variants
+<Button variant="quantum">Quantum</Button>
+<Button variant="nebula">Nebula</Button>
+<Button variant="crystal">Crystal</Button>
+<Button variant="frost">Frost</Button>
+<Button variant="glass">Glass</Button>
+
+// With quantum effects
 <Button
-  // Shadcn props
-  variant="default" // default | destructive | outline | secondary | ghost | link | quantum | quantum-nebula | quantum-frost | quantum-crystal
-  size="default"    // default | sm | lg | icon
-  
-  // Quantum props
-  quantum={true}           // Bật hiệu ứng lượng tử
-  quantumId="my-button"    // ID duy nhất cho button
-  entanglement={["other-id"]} // Liên kết với thành phần khác
-  depth="medium"           // shallow | medium | deep
-  luminance="medium"       // low | medium | high
-  clarity="medium"         // low | medium | high
-  ripple={true}            // Hiệu ứng gợn sóng khi click
-  hoverEffect={true}       // Hiệu ứng khi hover
-  animate={true}           // Animation liên tục
+  quantum
+  quantumId="unique-id"
+  entanglement={["other-button-id"]}
+  adaptivityLevel={0.8}
+  emotionalSensitivity={0.7}
+  animate
 >
   Quantum Button
 </Button>
 ```
 
-### Card
+### Input
+```tsx
+import { Input } from '@quantum-ui/react';
 
-Card với vật liệu lượng tử và hiệu ứng thích ứng.
+// Basic usage
+<Input placeholder="Type here..." />
 
-```jsx
-<Card
-  // Quantum props
-  quantum={true}           // Bật hiệu ứng lượng tử
-  variant="glass"          // default | glass | nebula | frost | crystal
-  depth="medium"           // shallow | medium | deep
-  luminance="medium"       // low | medium | high
-  clarity="medium"         // low | medium | high
-  hoverEffect={true}       // Hiệu ứng khi hover
-  animate={true}           // Animation liên tục
-  quantumId="my-card"      // ID duy nhất
-  entanglement={["btn-id"]} // Liên kết với thành phần khác
+// Quantum variants
+<Input variant="quantum" />
+<Input variant="frost" />
+<Input variant="crystal" />
+
+// With quantum effects
+<Input
+  quantum
+  quantumId="input-1"
+  entanglement={["input-2"]}
+  adaptivityLevel={0.6}
+/>
+```
+
+### Modal
+```tsx
+import { Modal } from '@quantum-ui/react';
+
+<Modal
+  variant="quantum"
+  trigger={<Button>Open Modal</Button>}
 >
-  <CardHeader>
-    <CardTitle>Tiêu đề</CardTitle>
-    <CardDescription>Mô tả</CardDescription>
-  </CardHeader>
-  <CardContent>
-    Nội dung thẻ
-  </CardContent>
-  <CardFooter>
-    <Button>Hành động</Button>
-  </CardFooter>
-</Card>
+  <div className="p-6">
+    <h3>Quantum Modal</h3>
+    <p>This modal has quantum effects!</p>
+  </div>
+</Modal>
 ```
 
-## Các hooks
+### Toggle
+```tsx
+import { Toggle } from '@quantum-ui/react';
 
-### useQuantum
-
-Hook kết nối một component với hệ thống lượng tử.
-
-```jsx
-function CustomComponent() {
-  const { 
-    id,                  // ID của thành phần
-    phase,               // Pha lượng tử hiện tại (0-1)
-    energy,              // Mức năng lượng (0-1)
-    coherence,           // Độ gắn kết lượng tử (0-1)
-    entanglement,        // Mảng các ID liên kết
-    observability,       // Độ hiển thị của hiệu ứng (0-1)
-    
-    ref,                 // Ref callback - kết nối element với hệ thống lượng tử
-    
-    setEnergy,           // Hàm đặt năng lượng
-    setPhase,            // Hàm đặt pha
-    entangleWith,        // Hàm tạo liên kết với thành phần khác
-    removeEntanglement,  // Hàm xóa liên kết
-    pulse,               // Hàm tạo xung năng lượng
-    emitInteraction,     // Hàm phát ra sự kiện tương tác
-    
-    cssVariables,        // CSS variables cho quantum effects
-  } = useQuantum({
-    id: 'custom-element',              // Optional ID
-    entanglement: ['other-element'],   // Optional liên kết ban đầu
-    initialState: {                    // Optional trạng thái ban đầu
-      phase: 0.5,
-      energyLevel: 0.7,
-    },
-    onInteraction: (state) => {        // Optional callback
-      console.log('Interaction occurred', state);
-    },
-  });
-  
-  return (
-    <div 
-      ref={ref} 
-      style={cssVariables} 
-      className="quantum-glass"
-      onClick={() => pulse(1.0)}
-    >
-      My Quantum Element - Phase: {phase.toFixed(2)}
-    </div>
-  );
-}
+<Toggle
+  variant="quantum"
+  quantum
+  quantumId="toggle-1"
+/>
 ```
 
-### useGlobalQuantum
+## Quantum Features
 
-Hook truy cập trạng thái lượng tử toàn cục.
+### State Entanglement
+Components can be entangled to share state and respond to each other's interactions:
 
-```jsx
-function QuantumController() {
-  const { 
-    state,            // Trạng thái lượng tử toàn cục
-    contextData,      // Dữ liệu ngữ cảnh
-    setGlobalEnergy,  // Đặt năng lượng toàn cục
-    setGlobalPhase    // Đặt pha toàn cục
-  } = useGlobalQuantum();
-  
-  return (
-    <div>
-      <p>Current phase: {state.phase.toFixed(2)}</p>
-      <button onClick={() => setGlobalEnergy(1.0)}>
-        Energize All Components
-      </button>
-    </div>
-  );
-}
+```tsx
+<Button
+  quantumId="button-1"
+  entanglement={["button-2"]}
+>
+  Button 1
+</Button>
+
+<Button
+  quantumId="button-2"
+  entanglement={["button-1"]}
+>
+  Button 2
+</Button>
 ```
 
-## Các lớp CSS Utility
+### Emotional Response
+Components can respond to user interactions with emotional states:
 
-### Quantum Glass
-
-```jsx
-<div className="quantum-glass">
-  Quantum Glass Content
-</div>
-```
-
-### Quantum Variants
-
-```jsx
-<div className="quantum-nebula">Nebula Variant</div>
-<div className="quantum-frost">Frost Variant</div>
-<div className="quantum-crystal">Crystal Variant</div>
-```
-
-### Quantum Properties
-
-```jsx
-<div className="quantum-depth-1">Shallow Depth</div>
-<div className="quantum-depth-2">Medium Depth</div>
-<div className="quantum-depth-3">Deep Depth</div>
-
-<div className="quantum-luminance-low">Low Luminance</div>
-<div className="quantum-luminance-medium">Medium Luminance</div>
-<div className="quantum-luminance-high">High Luminance</div>
-
-<div className="quantum-clarity-low">Low Clarity</div>
-<div className="quantum-clarity-medium">Medium Clarity</div>
-<div className="quantum-clarity-high">High Clarity</div>
-```
-
-### Quantum Animations
-
-```jsx
-<div className="animate-quantum-pulse">Pulsing Element</div>
-<div className="animate-quantum-breathe">Breathing Element</div>
-<div className="animate-quantum-phase-shift">Phase Shifting Element</div>
-<div className="animate-quantum-glow">Glowing Element</div>
-```
-
-## Advanced Usage
-
-### QuantumProvider Options
-
-```jsx
-<QuantumProvider 
-  options={{
-    // Độ nhạy cảm với ngữ cảnh (0-1)
-    contextSensitivity: 0.5,
-    
-    // Tốc độ thích ứng với thay đổi (0-1)
-    adaptability: 0.7,
-    
-    // Mức độ hiệu ứng lượng tử
-    quantumEffectsLevel: 'standard', // 'none' | 'subtle' | 'standard' | 'enhanced' | 'maximum'
-    
-    // Trạng thái ban đầu
-    initialState: {
-      phase: 0.2,
-      coherence: 0.8,
-      energyLevel: 0.5,
-    },
-    
-    // Chế độ debug
-    debug: false,
+```tsx
+<Button
+  quantum
+  emotionalSensitivity={0.8}
+  onInteraction={(state) => {
+    console.log('Emotional state:', state.emotionalResonance);
   }}
 >
-  {/* Your app */}
-</QuantumProvider>
+  Emotional Button
+</Button>
+```
+
+### Adaptive Behavior
+Components can adapt their behavior based on user interactions:
+
+```tsx
+<Button
+  quantum
+  adaptivityLevel={0.9}
+  variant="nebula"
+>
+  Adaptive Button
+</Button>
+```
+
+## Custom Hooks
+
+### useQuantum
+Create your own quantum-enabled components:
+
+```tsx
+import { useQuantum } from '@quantum-ui/react';
+
+function QuantumElement() {
+  const {
+    ref,
+    energy,
+    phase,
+    emotionalState,
+    cssVariables,
+    emitInteraction,
+    pulse,
+    getQuantumClass
+  } = useQuantum({
+    id: 'custom-element',
+    adaptivityLevel: 0.7,
+    emotionalSensitivity: 0.8
+  });
+
+  return (
+    <div
+      ref={ref}
+      className={getQuantumClass('custom')}
+      style={cssVariables}
+      onClick={() => emitInteraction('click', 1.0)}
+    >
+      Quantum Element
+    </div>
+  );
+}
+```
+
+## Styling
+
+### CSS Variables
+Quantum UI uses CSS variables for dynamic styling:
+
+```css
+.quantum-element {
+  --quantum-energy: 0.5;
+  --quantum-phase: 0;
+  --quantum-coherence: 1;
+  --quantum-observability: 0.8;
+}
+```
+
+### Utility Classes
+```tsx
+// Energy levels
+<div className="quantum-energy-50" />
+
+// Coherence levels
+<div className="quantum-coherence-80" />
+
+// Animations
+<div className="animate-quantum-breathe" />
+<div className="animate-quantum-pulse" />
+<div className="animate-quantum-glow" />
+
+// States
+<div className="quantum-pressed" />
+<div className="quantum-active" />
+```
+
+## TypeScript Support
+
+All components and hooks are fully typed. Import types directly:
+
+```tsx
+import type { 
+  QuantumState,
+  QuantumOptions,
+  QuantumResult 
+} from '@quantum-ui/react';
 ```
 
 ## Contributing
 
-Chúng tôi luôn hoan nghênh mọi đóng góp! Vui lòng xem [CONTRIBUTING.md](./CONTRIBUTING.md) để biết thêm thông tin.
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
 ## License
 
-MIT © [AuraGlyph Organization]
+MIT © [Your Name]

@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Quantum-specific CSS custom properties */
+    --quantum-energy: 0.5;
+    --quantum-phase: 0;
+    --quantum-coherence: 1;
+    --quantum-observability: 0.8;
+    --quantum-emotion-valence: 0;
+    --quantum-emotion-arousal: 0.5;
+    --quantum-emotion-dominance: 0.5;
+  }
+}
+
+@layer components {
+  /* Base quantum styles */
+  .quantum {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  .quantum-active {
+    @apply scale-[1.02] shadow-lg;
+  }
+
+  .quantum-glow {
+    @apply transition-shadow duration-300;
+    box-shadow: 0 0 1rem hsl(var(--quantum-primary) / calc(var(--quantum-energy) * 0.5));
+  }
+
+  .quantum-pressed {
+    @apply scale-95 transition-transform;
+  }
+
+  .quantum-animated {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  /* Material effects */
+  .quantum-material {
+    @apply relative overflow-hidden;
+  }
+
+  .quantum-material::before {
+    content: '';
+    /* Changed from-quantum/30 to an arbitrary value */
+    @apply absolute inset-0 bg-gradient-to-br from-[hsl(var(--quantum-primary))]/[.30] to-transparent opacity-0 transition-opacity;
+  }
+
+  .quantum-material:hover::before {
+    @apply opacity-[var(--quantum-energy)];
+  }
+
+  /* Emotional states */
+  .quantum-emotion-positive {
+    --quantum-accent: 142.1 76.2% 36.3%;
+  }
+
+  .quantum-emotion-negative {
+    --quantum-accent: 346.8 77.2% 49.8%;
+  }
+
+  .quantum-emotion-excited {
+    @apply animate-quantum-pulse;
+  }
+
+  .quantum-emotion-dominant {
+    @apply shadow-lg;
+  }
+
+  /* Depth effects */
+  .quantum-depth-1 {
+    @apply shadow-sm;
+  }
+
+  .quantum-depth-2 {
+    @apply shadow-md;
+  }
+
+  .quantum-depth-3 {
+    @apply shadow-lg;
+  }
+
+  /* Animations */
+  .quantum-pulse {
+    @apply animate-quantum-pulse;
+  }
+
+  .quantum-spin {
+    @apply animate-quantum-spin;
+  }
+
+  .quantum-fade {
+    @apply animate-quantum-fade;
+  }
+}
+
+/* Utilities */
+@layer utilities {
+  .quantum-blend {
+    @apply mix-blend-multiply dark:mix-blend-screen;
+  }
+
+  .quantum-backdrop {
+    @apply backdrop-blur-sm backdrop-saturate-150;
+  }
+}

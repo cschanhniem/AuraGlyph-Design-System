@@ -1,0 +1,52 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local"],
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "dev": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": ["build"],
+      "outputs": ["coverage/**"],
+      "inputs": [
+        "src/**/*.tsx",
+        "src/**/*.ts",
+        "test/**/*.ts",
+        "test/**/*.tsx"
+      ]
+    },
+    "clean": {
+      "cache": false
+    },
+    "type-check": {
+      "dependsOn": [],
+      "outputs": []
+    },
+    "format": {
+      "outputs": []
+    },
+    "deploy": {
+      "dependsOn": ["build", "test", "lint"],
+      "outputs": ["dist/**"],
+      "cache": false
+    }
+  },
+  "globalCache": true,
+  "globalEnv": [
+    "NODE_ENV",
+    "CI",
+    "GITHUB_TOKEN",
+    "GITHUB_REPOSITORY",
+    "VERCEL",
+    "VERCEL_ENV"
+  ]
+}

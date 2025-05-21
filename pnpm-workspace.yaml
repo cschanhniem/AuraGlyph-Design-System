@@ -1,3 +1,5 @@
 packages:
-  - 'vite-demo'
+  # Core package - React components with quantum effects
   - 'react-components'
+  # Demo app showcasing the components
+  - 'vite-demo'

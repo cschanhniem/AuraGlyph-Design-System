@@ -1,37 +1,33 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import path from 'path'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { resolve } from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/AuraGlyph-Design-System/',
   plugins: [react()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
-      '@auraglyph': path.resolve(__dirname, '../react-components'),
+      '@': resolve(__dirname, '../react-components'),
     },
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: true,
+  },
+  server: {
+    port: 3000,
+    open: true,
   },
   optimizeDeps: {
     include: [
       'react',
       'react-dom',
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-slot',
+      '@radix-ui/react-toggle',
+      'class-variance-authority',
+      'clsx',
+      'tailwind-merge',
     ],
-    esbuildOptions: {
-      // Enable JSX in TS files
-      jsx: 'automatic',
-    },
   },
-  build: {
-    commonjsOptions: {
-      transformMixedEsModules: true,
-    },
-  },
-  // Ensure we can resolve and transpile the AuraGlyph components
-  server: {
-    fs: {
-      // Allow serving files from one level up to the project root
-      allow: ['..'],
-    },
-  },
-})
+});
