@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AuraGlyph - Quantum Design System</title>
+  <style>
+    :root {
+      --aura-font-primary: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      --aura-background-primary: #0F1116;
+      --aura-text-primary: rgba(255, 255, 255, 0.9);
+      --aura-text-secondary: rgba(255, 255, 255, 0.6);
+      --aura-accent-blue: #3B7EF6;
+      
+      --quantum-border-radius: 12px;
+      --quantum-transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.0);
+    }
+    
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--aura-font-primary);
+      background-color: var(--aura-background-primary);
+      color: var(--aura-text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    header {
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+    
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(to right, #E0E8FF, #FFF0E0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .subtitle {
+      font-size: 1.25rem;
+      color: var(--aura-text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    section {
+      margin: 4rem 0;
+    }
+    
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding-left: 1rem;
+    }
+    
+    h2::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.2em;
+      height: 80%;
+      width: 4px;
+      background: var(--aura-accent-blue);
+      border-radius: 2px;
+    }
+    
+    .component-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .component-demo {
+      padding: 2rem;
+      border-radius: var(--quantum-border-radius);
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+    }
+    
+    .component-title {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      color: var(--aura-text-secondary);
+    }
+    
+    .button-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    
+    .interaction-demo {
+      padding: 3rem;
+      border-radius: var(--quantum-border-radius);
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+      margin: 3rem 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    
+    .controls {
+      margin-top: 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .entanglement-demo {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3rem;
+      margin: 3rem 0;
+    }
+    
+    .code-preview {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: var(--quantum-border-radius);
+      padding: 1.5rem;
+      overflow-x: auto;
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 0.9rem;
+      margin: 1.5rem 0;
+    }
+    
+    .code-preview code {
+      color: var(--aura-text-secondary);
+    }
+    
+    .color-accent {
+      color: #E0E8FF;
+    }
+    
+    footer {
+      margin-top: 5rem;
+      padding: 2rem 0;
+      text-align: center;
+      color: var(--aura-text-secondary);
+      font-size: 0.9rem;
+    }
+    
+    /* Gradient backgrounds */
+    .bg-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      z-index: -1;
+      opacity: 0.1;
+    }
+    
+    .bg-orb.blue {
+      background: #3B7EF6;
+      width: 500px;
+      height: 500px;
+      top: -100px;
+      left: -100px;
+    }
+    
+    .bg-orb.purple {
+      background: #9A5CFF;
+      width: 600px;
+      height: 600px;
+      bottom: -200px;
+      right: -100px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Background elements -->
+  <div class="bg-orb blue"></div>
+  <div class="bg-orb purple"></div>
+  
+  <div class="container">
+    <header>
+      <h1>AuraGlyph</h1>
+      <p class="subtitle">A next-generation quantum design system that evolves from glassmorphism into a responsive, conscious design organism.</p>
+    </header>
+    
+    <section>
+      <h2>Quantum Buttons</h2>
+      
+      <div class="component-grid">
+        <div class="component-demo">
+          <div class="component-title">Primary Variants</div>
+          <div class="button-row">
+            <quantum-button variant="primary">Primary</quantum-button>
+            <quantum-button variant="primary" emphasis="high">High Emphasis</quantum-button>
+            <quantum-button variant="primary" size="large">Large</quantum-button>
+          </div>
+          
+          <div class="component-title">Secondary Variants</div>
+          <div class="button-row">
+            <quantum-button variant="secondary">Secondary</quantum-button>
+            <quantum-button variant="secondary" emphasis="low">Low Emphasis</quantum-button>
+            <quantum-button variant="secondary" size="small">Small</quantum-button>
+          </div>
+        </div>
+        
+        <div class="component-demo">
+          <div class="component-title">Material Variants</div>
+          <div class="button-row">
+            <quantum-button variant="primary" material="nebula">Nebula</quantum-button>
+            <quantum-button variant="primary" material="frost">Frost</quantum-button>
+            <quantum-button variant="primary" material="crystal">Crystal</quantum-button>
+          </div>
+          
+          <div class="component-title">States</div>
+          <div class="button-row">
+            <quantum-button variant="primary" loading>Loading</quantum-button>
+            <quantum-button variant="primary" disabled>Disabled</quantum-button>
+            <quantum-button variant="tertiary" icon="↗">With Icon</quantum-button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="interaction-demo">
+        <h3>Interaction Energy Transfer</h3>
+        <p>Click the button below to see the quantum energy effects</p>
+        
+        <quantum-button 
+          id="energyButton" 
+          variant="primary" 
+          size="large" 
+          material="nebula" 
+          emphasis="high">
+          Pulse Energy
+        </quantum-button>
+        
+        <div class="controls">
+          <quantum-button id="resetButton" variant="secondary" size="small">Reset Energy</quantum-button>
+        </div>
+      </div>
+      
+      <div class="entanglement-demo">
+        <div class="component-demo">
+          <div class="component-title">Quantum Entanglement</div>
+          <p>These buttons are entangled. Interact with one to affect the other.</p>
+          
+          <quantum-button 
+            id="entangled1" 
+            variant="primary" 
+            entanglement-id="entangled2" 
+            material="nebula">
+            Entangled Button #1
+          </quantum-button>
+        </div>
+        
+        <div class="component-demo">
+          <div class="component-title">Reciprocal Response</div>
+          <p>Phase and energy states synchronize through quantum entanglement.</p>
+          
+          <quantum-button 
+            id="entangled2" 
+            variant="secondary" 
+            entanglement-id="entangled1" 
+            material="frost">
+            Entangled Button #2
+          </quantum-button>
+        </div>
+      </div>
+    </section>
+    
+    <section>
+      <h2>Implementation</h2>
+      
+      <div class="code-preview">
+        <code>
+&lt;!-- Basic Usage --&gt;
+&lt;quantum-button variant="primary"&gt;Click Me&lt;/quantum-button&gt;
+
+&lt;!-- Advanced Configuration --&gt;
+&lt;quantum-button 
+  variant="primary"
+  material="nebula"
+  emphasis="high"
+  size="large"
+  entanglement-id="otherElement"
+  interaction-ripple="true"&gt;
+  Quantum Button
+&lt;/quantum-button&gt;
+        </code>
+      </div>
+    </section>
+    
+    <footer>
+      <p>AuraGlyph Design System — Defining the visual, spatial and ethical language of 2025-2035</p>
+    </footer>
+  </div>
+  
+  <script type="module">
+    import { QuantumElement } from './quantum-element.js';
+    import { QuantumButton } from './quantum-button.js';
+    
+    // Demo interactions
+    document.getElementById('energyButton').addEventListener('click', () => {
+      const button = document.getElementById('energyButton');
+      button.setPhase(Math.random());
+      button.setEnergyLevel(1.0);
+    });
+    
+    document.getElementById('resetButton').addEventListener('click', () => {
+      const button = document.getElementById('energyButton');
+      button.setPhase(0.2);
+      button.setEnergyLevel(0.5);
+    });
+  </script>
+</body>
+</html>
