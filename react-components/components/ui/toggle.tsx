@@ -59,9 +59,8 @@ const Toggle = React.forwardRef<HTMLButtonElement, ToggleProps>(
       ref: quantumRef, 
       cssVariables, 
       emitInteraction, 
-      energy, 
-      pulse,
-      phase
+      energy,
+      pulse
     } = useQuantum({
       id: quantumId,
       entanglement,
