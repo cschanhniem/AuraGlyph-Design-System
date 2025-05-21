@@ -30,10 +30,13 @@ jobs:
         with:
           version: 8
           
-      - name: Install dependencies
-        run: cd vite-demo && pnpm install
+      - name: Install root dependencies
+        run: pnpm install --no-frozen-lockfile
         
-      - name: Build
+      - name: Install vite-demo dependencies
+        run: cd vite-demo && pnpm install --no-frozen-lockfile
+        
+      - name: Build vite-demo
         run: cd vite-demo && pnpm build
         
       - name: Setup Pages
@@ -45,12 +48,14 @@ jobs:
           path: vite-demo/dist
 
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          preview: false

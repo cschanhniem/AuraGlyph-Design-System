@@ -1,0 +1,12 @@
+{
+  "name": "auraglyph-design-system",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "vite-demo",
+    "react-components"
+  ],
+  "scripts": {
+    "build:vite": "cd vite-demo && pnpm build"
+  }
+}
