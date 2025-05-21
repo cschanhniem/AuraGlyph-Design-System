@@ -1,0 +1,539 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Base Quantum Variables */
+    --quantum-phase: 0;
+    --quantum-coherence: 1;
+    --quantum-energy: 0.5;
+    --quantum-depth: 0.2;
+    --quantum-luminance: 0.7;
+    --quantum-clarity: 0.65;
+    --quantum-blur: 12px;
+    --quantum-blur-min: 8px;
+    --quantum-blur-max: 16px;
+    --quantum-radius: 12px;
+    --quantum-transition: cubic-bezier(0.2, 0.9, 0.3, 1.0);
+
+    /* Quantum Shadow & Glow */
+    --quantum-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    --quantum-shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --quantum-shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.2);
+    --quantum-glow-color: 255, 255, 255;
+    --quantum-glow-intensity: 0.2;
+    --quantum-glow: 0 0 20px rgba(var(--quantum-glow-color), var(--quantum-glow-intensity));
+
+    /* Quantum Gradient */
+    --quantum-gradient-from: 224 95% 90%;
+    --quantum-gradient-to: 30 95% 90%;
+
+    /* Quantum Material Colors */
+    --quantum: 220 70% 98%;
+    --quantum-foreground: 220 10% 10%;
+    --quantum-nebula: 225 80% 60%;
+    --quantum-frost: 210 90% 95%;
+    --quantum-crystal: 0 0% 100%;
+    --quantum-luminance: 210 100% 80%;
+
+    /* Base Colors */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Base Colors - Dark Mode */
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+
+    /* Quantum Variables - Dark Mode */
+    --quantum: 220 70% 5%;
+    --quantum-foreground: 220 10% 98%;
+    --quantum-nebula: 225 80% 50%;
+    --quantum-frost: 210 50% 15%;
+    --quantum-crystal: 0 0% 10%;
+    --quantum-luminance: 210 100% 50%;
+    --quantum-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    --quantum-glow-color: 120, 180, 255;
+    --quantum-gradient-from: 224 50% 30%;
+    --quantum-gradient-to: 30 50% 30%;
+  }
+}
+
+@layer components {
+  /* Quantum Base Components */
+  .quantum-container {
+    @apply relative w-full h-full overflow-hidden rounded-quantum transition-all duration-300 ease-quantum;
+  }
+
+  .quantum-glass {
+    @apply bg-opacity-5 backdrop-blur-md border border-white/10 rounded-quantum shadow-quantum transition-all duration-300;
+    background-color: rgba(255, 255, 255, calc(0.05 + var(--quantum-clarity, 0.65) * 0.15));
+  }
+
+  .quantum-content {
+    @apply relative z-10 p-4;
+  }
+
+  /* Quantum Material Variants */
+  .quantum-nebula {
+    --quantum-clarity: 0.6;
+    --quantum-luminance: 0.8;
+    @apply bg-opacity-10 shadow-quantum-lg;
+    background-color: rgba(var(--quantum-nebula), 0.1);
+  }
+
+  .quantum-frost {
+    --quantum-clarity: 0.8;
+    --quantum-luminance: 0.5;
+    @apply bg-opacity-10 shadow-quantum;
+    background-color: rgba(var(--quantum-frost), 0.1);
+  }
+
+  .quantum-crystal {
+    --quantum-clarity: 0.9;
+    --quantum-luminance: 0.9;
+    @apply bg-opacity-15 shadow-quantum-lg;
+    background-color: rgba(var(--quantum-crystal), 0.15);
+  }
+  
+  .quantum-immersive {
+    --quantum-clarity: 0.4;
+    --quantum-luminance: 1.0;
+    @apply bg-opacity-20 backdrop-blur-xl shadow-quantum-lg border-none;
+    background-color: rgba(var(--quantum-nebula), 0.15);
+    box-shadow: 0 0 40px rgba(var(--quantum-glow-color), 0.2), inset 0 0 30px rgba(var(--quantum-glow-color), 0.1);
+  }
+
+  /* Quantum Effects */
+  .quantum-pulse {
+    @apply animate-quantum-pulse;
+  }
+
+  .quantum-breathe {
+    @apply animate-quantum-breathe;
+  }
+
+  .quantum-glow {
+    @apply animate-quantum-glow;
+  }
+
+  .quantum-phase-shift {
+    @apply animate-quantum-phase-shift;
+  }
+  
+  /* Quantum Input */
+  .quantum-input {
+    @apply bg-opacity-5 backdrop-blur-sm border border-white/20 shadow-sm transition-all duration-300;
+    background-color: rgba(var(--background), 0.05);
+  }
+  
+  .quantum-input-container {
+    @apply relative;
+  }
+  
+  .quantum-input-effect {
+    @apply rounded-md pointer-events-none;
+    box-shadow: 0 0 15px rgba(var(--quantum-glow-color), calc(var(--quantum-energy, 0.5) * 0.2));
+  }
+  
+  .quantum-input-effect-focused {
+    box-shadow: 0 0 20px rgba(var(--quantum-glow-color), calc(var(--quantum-energy, 0.8) * 0.4));
+  }
+  
+  .quantum-input-frost {
+    @apply quantum-input;
+    background-color: rgba(var(--quantum-frost), 0.05);
+  }
+  
+  .quantum-input-nebula {
+    @apply quantum-input;
+    background-color: rgba(var(--quantum-nebula), 0.05);
+  }
+  
+  .quantum-input-crystal {
+    @apply quantum-input;
+    background-color: rgba(var(--quantum-crystal), 0.05);
+  }
+  
+  /* Quantum Toggle */
+  .quantum-toggle {
+    @apply bg-opacity-10 backdrop-blur-sm shadow-sm;
+    background-color: rgba(var(--background), 0.1);
+  }
+  
+  .quantum-toggle-handle {
+    @apply transition-all duration-300;
+    box-shadow: 0 0 8px rgba(var(--quantum-glow-color), 0.2);
+  }
+  
+  .quantum-toggle-handle-active {
+    box-shadow: 0 0 12px rgba(var(--quantum-glow-color), 0.4);
+  }
+  
+  .quantum-toggle-effect {
+    @apply transition-all duration-300;
+  }
+  
+  .quantum-toggle-effect-active {
+    background: radial-gradient(circle, rgba(var(--quantum-glow-color), 0.2) 0%, transparent 70%);
+  }
+  
+  .quantum-toggle-frost {
+    @apply quantum-toggle;
+    background-color: rgba(var(--quantum-frost), 0.1);
+  }
+  
+  .quantum-toggle-nebula {
+    @apply quantum-toggle;
+    background-color: rgba(var(--quantum-nebula), 0.1);
+  }
+  
+  .quantum-toggle-crystal {
+    @apply quantum-toggle;
+    background-color: rgba(var(--quantum-crystal), 0.1);
+  }
+  
+  /* Quantum Modal */
+  .quantum-overlay {
+    @apply backdrop-blur-sm transition-all duration-300;
+    background-color: rgba(0, 0, 0, calc(0.5 + var(--quantum-energy, 0.5) * 0.2));
+  }
+  
+  /* Quantum Select */
+  .quantum-select {
+    @apply bg-opacity-5 backdrop-blur-sm border border-white/20 shadow-sm transition-all duration-300;
+    background-color: rgba(var(--background), 0.05);
+  }
+  
+  .quantum-select-frost {
+    @apply quantum-select;
+    background-color: rgba(var(--quantum-frost), 0.05);
+  }
+  
+  .quantum-select-nebula {
+    @apply quantum-select;
+    background-color: rgba(var(--quantum-nebula), 0.05);
+  }
+  
+  .quantum-select-crystal {
+    @apply quantum-select;
+    background-color: rgba(var(--quantum-crystal), 0.05);
+  }
+  
+  .quantum-select-content {
+    @apply bg-opacity-10 backdrop-blur-sm border border-white/10 shadow-quantum;
+  }
+  
+  .quantum-select-item {
+    @apply transition-all duration-300;
+  }
+  
+  .quantum-select-item-focus {
+    @apply bg-opacity-20;
+    box-shadow: 0 0 10px rgba(var(--quantum-glow-color), 0.2);
+  }
+  
+  /* Quantum Tabs */
+  .quantum-tabs-list {
+    @apply bg-opacity-10 backdrop-blur-sm border border-white/10 transition-all duration-300;
+  }
+  
+  .quantum-tabs-list-frost {
+    @apply quantum-tabs-list;
+    background-color: rgba(var(--quantum-frost), 0.05);
+  }
+  
+  .quantum-tabs-list-nebula {
+    @apply quantum-tabs-list;
+    background-color: rgba(var(--quantum-nebula), 0.05);
+  }
+  
+  .quantum-tabs-list-crystal {
+    @apply quantum-tabs-list;
+    background-color: rgba(var(--quantum-crystal), 0.05);
+  }
+  
+  .quantum-tabs-trigger {
+    @apply transition-all duration-300;
+  }
+  
+  .quantum-tabs-trigger-frost {
+    @apply quantum-tabs-trigger;
+  }
+  
+  .quantum-tabs-trigger-nebula {
+    @apply quantum-tabs-trigger;
+  }
+  
+  .quantum-tabs-trigger-crystal {
+    @apply quantum-tabs-trigger;
+  }
+  
+  .quantum-tabs-trigger-active {
+    box-shadow: 0 0 10px rgba(var(--quantum-glow-color), 0.2);
+  }
+  
+  .quantum-tabs-content {
+    @apply transition-opacity duration-300 ease-quantum;
+  }
+  
+  /* Quantum Avatar */
+  .quantum-avatar {
+    @apply border border-white/10 shadow-sm transition-all duration-300;
+  }
+  
+  .quantum-avatar-frost {
+    @apply quantum-avatar;
+    background-color: rgba(var(--quantum-frost), 0.1);
+  }
+  
+  .quantum-avatar-nebula {
+    @apply quantum-avatar;
+    background-color: rgba(var(--quantum-nebula), 0.1);
+  }
+  
+  .quantum-avatar-crystal {
+    @apply quantum-avatar;
+    background-color: rgba(var(--quantum-crystal), 0.1);
+  }
+  
+  .quantum-avatar-fallback {
+    @apply bg-opacity-20 transition-all duration-300;
+  }
+  
+  /* Quantum Progress */
+  .quantum-progress {
+    @apply transition-all duration-300;
+    background-color: rgba(var(--background), 0.1);
+  }
+  
+  .quantum-progress-frost {
+    @apply quantum-progress;
+    background-color: rgba(var(--quantum-frost), 0.1);
+  }
+  
+  .quantum-progress-nebula {
+    @apply quantum-progress;
+    background-color: rgba(var(--quantum-nebula), 0.1);
+  }
+  
+  .quantum-progress-crystal {
+    @apply quantum-progress;
+    background-color: rgba(var(--quantum-crystal), 0.1);
+  }
+  
+  .quantum-progress-indicator {
+    @apply transition-all duration-300;
+  }
+  
+  .quantum-progress-shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    width: 50%;
+    height: 100%;
+    animation: shimmer 2s infinite;
+  }
+  
+  .quantum-progress-circular {
+    @apply transition-all duration-300;
+  }
+  
+  .quantum-progress-circle {
+    transition: stroke-dashoffset 0.5s ease-in-out;
+  }
+  
+  .quantum-progress-dot {
+    @apply transition-all duration-300;
+  }
+}
+
+@layer utilities {
+  /* Quantum Utility Classes */
+  .quantum-depth-1 {
+    --quantum-depth: 0.1;
+    transform: translateZ(calc(var(--quantum-depth) * 10px));
+  }
+
+  .quantum-depth-2 {
+    --quantum-depth: 0.2;
+    transform: translateZ(calc(var(--quantum-depth) * 20px));
+  }
+
+  .quantum-depth-3 {
+    --quantum-depth: 0.3;
+    transform: translateZ(calc(var(--quantum-depth) * 30px));
+  }
+
+  .quantum-luminance-low {
+    --quantum-luminance: 0.3;
+  }
+
+  .quantum-luminance-medium {
+    --quantum-luminance: 0.6;
+  }
+
+  .quantum-luminance-high {
+    --quantum-luminance: 0.9;
+  }
+
+  .quantum-clarity-low {
+    --quantum-clarity: 0.3;
+  }
+
+  .quantum-clarity-medium {
+    --quantum-clarity: 0.6;
+  }
+
+  .quantum-clarity-high {
+    --quantum-clarity: 0.9;
+  }
+  
+  .quantum-adaptive-low {
+    --quantum-adaptivity: 0.3;
+  }
+  
+  .quantum-adaptive-medium {
+    --quantum-adaptivity: 0.6;
+  }
+  
+  .quantum-adaptive-high {
+    --quantum-adaptivity: 0.9;
+  }
+  
+  .transition-quantum-slow {
+    transition-duration: 800ms;
+    transition-timing-function: cubic-bezier(0.2, 0.9, 0.3, 1.0);
+  }
+  
+  .transition-quantum-medium {
+    transition-duration: 400ms;
+    transition-timing-function: cubic-bezier(0.2, 0.9, 0.3, 1.0);
+  }
+  
+  .transition-quantum-fast {
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0.2, 0.9, 0.3, 1.0);
+  }
+  
+  .rounded-quantum {
+    border-radius: var(--quantum-radius, 12px);
+  }
+  
+  .shadow-quantum {
+    box-shadow: var(--quantum-shadow, 0 4px 30px rgba(0, 0, 0, 0.1));
+  }
+  
+  .shadow-quantum-lg {
+    box-shadow: var(--quantum-shadow-lg, 0 8px 40px rgba(0, 0, 0, 0.2));
+  }
+  
+  .animate-quantum-active {
+    animation: quantumActive 2s cubic-bezier(0.2, 0.9, 0.3, 1.0) infinite;
+  }
+  
+  .animate-quantum-progress {
+    animation: quantumProgress 3s cubic-bezier(0.2, 0.9, 0.3, 1.0) infinite;
+  }
+  
+  .animate-quantum-pulse-slow {
+    animation: quantumPulseSlow 4s cubic-bezier(0.2, 0.9, 0.3, 1.0) infinite;
+  }
+  
+  .animate-quantum-pulse-fast {
+    animation: quantumPulseFast 1s cubic-bezier(0.2, 0.9, 0.3, 1.0) infinite;
+  }
+  
+  .animate-quantum-complete {
+    animation: quantumComplete 1s cubic-bezier(0.2, 0.9, 0.3, 1.0);
+  }
+  
+  .animate-quantum-fade-in {
+    animation: quantumFadeIn 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.0);
+  }
+  
+  .animate-quantum-fade-out {
+    animation: quantumFadeOut 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.0);
+  }
+  
+  @keyframes quantumActive {
+    0%, 100% { box-shadow: 0 0 15px rgba(var(--quantum-glow-color), 0.3); }
+    50% { box-shadow: 0 0 25px rgba(var(--quantum-glow-color), 0.5); }
+  }
+  
+  @keyframes quantumProgress {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+  }
+  
+  @keyframes quantumPulseSlow {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.01); }
+  }
+  
+  @keyframes quantumPulseFast {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+  }
+  
+  @keyframes quantumComplete {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  
+  @keyframes quantumFadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+  @keyframes quantumFadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(200%); }
+  }
+}
