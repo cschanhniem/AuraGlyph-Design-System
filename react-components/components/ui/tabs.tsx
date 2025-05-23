@@ -38,7 +38,7 @@ const Tabs = React.forwardRef<
     } = useQuantum({
       id: quantumId,
       entanglement,
-      initialState: { energyLevel: 0.5 },
+      initialState: { energy: 0.5 },
     });
 
     // Determine if we're using quantum styles
@@ -107,7 +107,7 @@ const TabsList = React.forwardRef<
     } = useQuantum({
       id: quantumId || `quantum-tabs-list-${React.useId()}`,
       entanglement,
-      initialState: { energyLevel: 0.6 },
+      initialState: { energy: 0.6 },
     });
 
     // Combine refs
@@ -134,7 +134,7 @@ const TabsList = React.forwardRef<
     // Determine quantum variant classes
     const getQuantumVariantClass = () => {
       if (!isQuantumVariant) return "";
-      
+
       switch (variant) {
         case "quantum": return "quantum-tabs-list";
         case "frost": return "quantum-tabs-list-frost";
@@ -147,7 +147,7 @@ const TabsList = React.forwardRef<
     // Determine depth class
     const getDepthClass = () => {
       if (!isQuantumVariant) return "";
-      
+
       switch (depth) {
         case "shallow": return "quantum-depth-1";
         case "medium": return "quantum-depth-2";
@@ -159,7 +159,7 @@ const TabsList = React.forwardRef<
     // Determine luminance class
     const getLuminanceClass = () => {
       if (!isQuantumVariant) return "";
-      
+
       switch (luminance) {
         case "low": return "quantum-luminance-low";
         case "medium": return "quantum-luminance-medium";
@@ -171,7 +171,7 @@ const TabsList = React.forwardRef<
     // Determine clarity class
     const getClarityClass = () => {
       if (!isQuantumVariant) return "";
-      
+
       switch (clarity) {
         case "low": return "quantum-clarity-low";
         case "medium": return "quantum-clarity-medium";
@@ -181,15 +181,15 @@ const TabsList = React.forwardRef<
     };
 
     // Set up quantum animation class
-    const quantumAnimationClass = animate && isQuantumVariant 
-      ? energy > 0.7 
-        ? "animate-quantum-pulse" 
-        : "animate-quantum-breathe" 
+    const quantumAnimationClass = animate && isQuantumVariant
+      ? energy > 0.7
+        ? "animate-quantum-pulse"
+        : "animate-quantum-breathe"
       : "";
 
     // CSS styles including quantum variables if needed
-    const style = isQuantumVariant 
-      ? { ...cssVariables as React.CSSProperties } 
+    const style = isQuantumVariant
+      ? { ...cssVariables as React.CSSProperties }
       : undefined;
 
     return (
@@ -246,16 +246,16 @@ const TabsTrigger = React.forwardRef<
     ref
   ) => {
     // Connect to quantum system
-    const { 
-      ref: quantumRef, 
-      cssVariables, 
-      emitInteraction, 
+    const {
+      ref: quantumRef,
+      cssVariables,
+      emitInteraction,
       energy,
       pulse
     } = useQuantum({
       id: quantumId || `quantum-tab-trigger-${React.useId()}`,
       entanglement,
-      initialState: { energyLevel: 0.5 },
+      initialState: { energy: 0.5 },
     });
 
     // Combine refs
@@ -338,15 +338,15 @@ const TabsTrigger = React.forwardRef<
     };
 
     // Set up quantum animation class
-    const quantumAnimationClass = animate && isQuantumVariant 
-      ? energy > 0.7 
-        ? "animate-quantum-pulse" 
-        : "animate-quantum-breathe" 
+    const quantumAnimationClass = animate && isQuantumVariant
+      ? energy > 0.7
+        ? "animate-quantum-pulse"
+        : "animate-quantum-breathe"
       : "";
 
     // CSS styles including quantum variables if needed
-    const style = isQuantumVariant 
-      ? { ...cssVariables as React.CSSProperties } 
+    const style = isQuantumVariant
+      ? { ...cssVariables as React.CSSProperties }
       : undefined;
 
     return (
@@ -401,13 +401,13 @@ const TabsContent = React.forwardRef<
     ref
   ) => {
     // Connect to quantum system
-    const { 
-      ref: quantumRef, 
-      cssVariables 
+    const {
+      ref: quantumRef,
+      cssVariables
     } = useQuantum({
       id: quantumId || `quantum-tab-content-${React.useId()}`,
       entanglement,
-      initialState: { energyLevel: 0.5 },
+      initialState: { energy: 0.5 },
     });
 
     // Combine refs
@@ -438,8 +438,8 @@ const TabsContent = React.forwardRef<
     };
 
     // CSS styles including quantum variables if needed
-    const style = isQuantumVariant 
-      ? { ...cssVariables as React.CSSProperties } 
+    const style = isQuantumVariant
+      ? { ...cssVariables as React.CSSProperties }
       : undefined;
 
     return (

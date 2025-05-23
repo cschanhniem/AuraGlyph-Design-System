@@ -5,7 +5,9 @@ export default {
     './src/**/*.{js,ts,jsx,tsx}',
     './index.html',
     // Include AuraGlyph component paths
-    '../react-components/**/*.{ts,tsx}',
+    '../react-components/components/**/*.{ts,tsx}',
+    '../react-components/quantum/**/*.{ts,tsx}',
+    '../react-components/lib/**/*.{ts,tsx}',
   ],
   theme: {
     container: {

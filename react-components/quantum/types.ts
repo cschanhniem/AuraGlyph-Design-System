@@ -13,14 +13,14 @@ export interface EmotionalState {
   dominance: number;  // Submissive vs dominant (0 to 1)
 }
 
-export type InteractionType = 
-  | 'click' 
+export type InteractionType =
+  | 'click'
   | 'hover'
   | 'hoverStart'
-  | 'hoverEnd' 
-  | 'focus' 
-  | 'blur' 
-  | 'press' 
+  | 'hoverEnd'
+  | 'focus'
+  | 'blur'
+  | 'press'
   | 'release'
   | 'change'
   | 'keydown'
@@ -58,6 +58,8 @@ export interface ComponentUpdate {
   config?: Partial<QuantumConfig>;
   entanglement?: string[];
   lastUpdate?: number;
+  forceUpdate?: boolean;
+  isEntanglementUpdate?: boolean;
 }
 
 export interface QuantumContext {

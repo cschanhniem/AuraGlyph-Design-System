@@ -1,6 +1,6 @@
-# Quantum UI React Components
+# AuraGlyph React Components
 
-A modern UI component library with quantum-inspired interactions and animations.
+A modern UI component library with quantum-inspired interactions and animations, based on the AuraGlyph design system.
 
 ## Features
 
@@ -12,6 +12,8 @@ A modern UI component library with quantum-inspired interactions and animations.
 - ⚡ High-performance animations
 - 🎯 Accessibility-first design
 - 🌓 Dark mode support
+- 🧩 Shadcn-based component architecture
+- 🔄 Seamless integration with Tailwind CSS
 
 ## Installation
 
@@ -257,10 +259,10 @@ Quantum UI uses CSS variables for dynamic styling:
 All components and hooks are fully typed. Import types directly:
 
 ```tsx
-import type { 
+import type {
   QuantumState,
   QuantumOptions,
-  QuantumResult 
+  QuantumResult
 } from '@quantum-ui/react';
 ```
 

@@ -3,6 +3,7 @@ import { useQuantumStore } from './use-store';
 import { quantumEvents } from './events';
 import { generateCSSVariables, generateQuantumClasses } from './utils';
 import { DEFAULT_QUANTUM_STATE } from './constants';
+import { quantumStore } from './store';
 import type { InteractionType, QuantumProps, QuantumConfig, QuantumHookResult } from './types';
 
 export function useQuantum({
@@ -86,11 +87,25 @@ export function useQuantum({
   // Update entanglement when prop changes
   useEffect(() => {
     if (!quantum) return;
-    updateState({
-      entanglement,
-      lastUpdate: performance.now(),
-    });
-  }, [quantum, entanglement, updateState]);
+
+    // Compare current entanglement with new entanglement to prevent unnecessary updates
+    const currentState = quantumStore.getState(id);
+    const currentEntanglement = currentState?.entanglement || [];
+
+    // Only update if entanglement has actually changed
+    if (!arraysEqual(currentEntanglement, entanglement || [])) {
+      updateState({
+        entanglement,
+        lastUpdate: performance.now(),
+      });
+    }
+  }, [quantum, entanglement, updateState, id]);
+
+  // Helper function to compare arrays
+  function arraysEqual(a: string[], b: string[]) {
+    if (a.length !== b.length) return false;
+    return a.every((val, index) => val === b[index]);
+  }
 
   // Return quantum interface with all required properties
   return {
@@ -104,8 +119,8 @@ export function useQuantum({
     observability: state?.quantum?.observability ?? DEFAULT_QUANTUM_STATE.observability,
     emitInteraction,
     pulse,
-    cssVariables: state 
-      ? generateCSSVariables(state.quantum, state.emotional) 
+    cssVariables: state
+      ? generateCSSVariables(state.quantum, state.emotional)
       : generateCSSVariables(DEFAULT_QUANTUM_STATE),
     getQuantumClass: (prefix?: string) => state
       ? generateQuantumClasses(prefix, state.quantum, state.emotional)

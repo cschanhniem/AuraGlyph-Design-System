@@ -10,8 +10,13 @@ This demo application built with Vite and React provides a comprehensive demonst
 
 - **Quantum Button Variants**: Various materials (Glass, Nebula, Frost, Crystal) with adjustable properties
 - **Interactive Cards**: With entanglement effects and responsive behaviors
-- **Quantum Form Elements**: Inputs and toggles with quantum material effects
+- **Quantum Form Elements**: Inputs, toggles, selects, and more with quantum material effects
 - **Immersive Modals**: Dialog windows with quantum visual properties
+- **Progress Indicators**: Quantum-enhanced progress bars with various styles
+- **Tabs & Navigation**: Quantum-styled tab interfaces
+- **Alerts & Notifications**: Status alerts with quantum effects
+- **Avatars**: User avatars with quantum material variants
+- **Quantum Entanglement**: Components that respond to each other's state changes
 - **CSS Utility Classes**: For quick application of quantum design features
 - **Dark Mode**: Built-in dark mode toggle
 
@@ -95,10 +100,25 @@ Buttons with various quantum materials and properties like depth, luminance, and
 Card components that demonstrate layered quantum effects and entanglement between components.
 
 ### Quantum Inputs
-Form elements with quantum styling, including input fields and toggle switches.
+Form elements with quantum styling, including input fields, toggle switches, and select dropdowns.
 
 ### Quantum Modals
 Dialog windows with immersive quantum effects and responsive behaviors.
+
+### Progress Indicators
+Progress bars with quantum effects, including standard, circular, and dots variants.
+
+### Tabs & Navigation
+Tab interfaces with quantum styling and animations for state transitions.
+
+### Alerts & Notifications
+Status alerts with quantum effects for different severity levels.
+
+### Avatars
+User avatars with quantum material variants and fallback options.
+
+### Quantum Entanglement
+Components that respond to each other's state changes, creating synchronized experiences.
 
 ## Customization
 
@@ -111,7 +131,7 @@ The demo uses TailwindCSS for styling with custom quantum design tokens. You can
 If you encounter any issues:
 
 1. **Import Errors**: Ensure paths are correct when importing from react-components
-2. **Styling Issues**: Clear browser cache and ensure CSS is loading properly 
+2. **Styling Issues**: Clear browser cache and ensure CSS is loading properly
 3. **Backdrop Filter Support**: Ensure your browser supports CSS backdrop filters
 4. **TailwindCSS**: If styles aren't applying, check the content paths in tailwind config
 5. **Module Resolution**: If you see module not found errors, try running `pnpm install` again in both directories

@@ -62,7 +62,7 @@ const Select = React.forwardRef<
     } = useQuantum({
       id: quantumId,
       entanglement,
-      initialState: { energyLevel: 0.5 },
+      initialState: { energy: 0.5 },
     });
 
     // Determine if we're using quantum styles
@@ -148,7 +148,7 @@ const SelectTrigger = React.forwardRef<
     } = useQuantum({
       id: quantumId || `quantum-select-${React.useId()}`,
       entanglement,
-      initialState: { energyLevel: 0.5 },
+      initialState: { energy: 0.5 },
     });
 
     // Combine refs
@@ -216,7 +216,7 @@ const SelectTrigger = React.forwardRef<
     // Determine quantum variant classes
     const getQuantumVariantClass = () => {
       if (!isQuantumVariant) return "";
-      
+
       switch (variant) {
         case "quantum": return "quantum-select";
         case "frost": return "quantum-select-frost";
@@ -229,7 +229,7 @@ const SelectTrigger = React.forwardRef<
     // Determine depth class
     const getDepthClass = () => {
       if (!isQuantumVariant) return "";
-      
+
       switch (depth) {
         case "shallow": return "quantum-depth-1";
         case "medium": return "quantum-depth-2";
@@ -241,7 +241,7 @@ const SelectTrigger = React.forwardRef<
     // Determine luminance class
     const getLuminanceClass = () => {
       if (!isQuantumVariant) return "";
-      
+
       switch (luminance) {
         case "low": return "quantum-luminance-low";
         case "medium": return "quantum-luminance-medium";
@@ -253,7 +253,7 @@ const SelectTrigger = React.forwardRef<
     // Determine clarity class
     const getClarityClass = () => {
       if (!isQuantumVariant) return "";
-      
+
       switch (clarity) {
         case "low": return "quantum-clarity-low";
         case "medium": return "quantum-clarity-medium";
@@ -263,15 +263,15 @@ const SelectTrigger = React.forwardRef<
     };
 
     // Set up quantum animation class
-    const quantumAnimationClass = animate && isQuantumVariant 
-      ? energy > 0.7 
-        ? "animate-quantum-pulse" 
-        : "animate-quantum-breathe" 
+    const quantumAnimationClass = animate && isQuantumVariant
+      ? energy > 0.7
+        ? "animate-quantum-pulse"
+        : "animate-quantum-breathe"
       : "";
 
     // Style with quantum variables if using quantum effects
-    const style = isQuantumVariant 
-      ? { ...cssVariables as React.CSSProperties } 
+    const style = isQuantumVariant
+      ? { ...cssVariables as React.CSSProperties }
       : undefined;
 
     return (
@@ -335,7 +335,7 @@ const SelectContent = React.forwardRef<
     // Determine quantum variant classes
     const getQuantumContentClass = () => {
       if (!isQuantumVariant) return "";
-      
+
       switch (variant) {
         case "quantum": return "quantum-select-content";
         case "frost": return "quantum-select-content-frost";

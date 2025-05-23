@@ -52,6 +52,13 @@ AuraGlyph hướng đến việc chuyển đổi từ:
 - **Visual → Multi-sensory**: Từ thiết kế thuần thị giác sang trải nghiệm đa giác quan
 - **User Interface → Symbiotic Partner**: Từ công cụ thành đối tác
 
+## Future Directions
+
+AuraGlyph is committed to continuous evolution, embracing new paradigms and technologies to redefine digital interaction. Our roadmap includes pioneering efforts in several key areas that will shape the next generation of user experiences.
+
+### Key Initiatives for 2025-2026
+
+To continue pushing the boundaries of user experience and technological advancement, AuraGlyph will focus on several key initiatives in the 2025-2026 timeframe. These include a strategic transition to WebGPU to unlock next-generation graphical capabilities and the integration of basic AI-driven context awareness to create more intuitive and responsive interfaces. These efforts will be foundational for the next evolution of the AuraGlyph Design System.
 ## Kết Luận
 
 AuraGlyph không chỉ là một hệ thống thiết kế - đây là bước tiến hóa tiếp theo trong mối quan hệ giữa con người và thế giới số. Bằng cách kết hợp triết học sâu sắc với công nghệ tiên tiến, chúng tôi đang kiến tạo một ngôn ngữ thiết kế định hình tương lai kỹ thuật số trong thập kỷ 2025-2035.

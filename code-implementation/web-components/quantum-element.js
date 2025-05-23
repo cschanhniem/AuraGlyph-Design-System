@@ -59,8 +59,15 @@ export class QuantumElement extends HTMLElement {
     this._renderState = {
       animationFrameId: null,
       needsRender: true,
-      renderer: null,
-      canvas: null
+      renderer: null, // This will hold either 2D, WebGL, or WebGPU context/device
+      renderMode: '2d', // '2d', 'webgl', 'webgpu'
+      canvas: null,
+      webgpu: { // WebGPU specific state
+        device: null,
+        context: null,
+        pipeline: null,
+        presentationFormat: null
+      }
     };
     
     // Material system
@@ -330,6 +337,7 @@ export class QuantumElement extends HTMLElement {
     
     // Initialize renderer if needed
     if (this._renderState.canvas) {
+      // Attempt to initialize WebGPU first, then WebGL (not implemented yet), then 2D
       this._initializeRenderer();
     }
     
@@ -609,43 +617,242 @@ export class QuantumElement extends HTMLElement {
    * Initialize WebGL/WebGPU renderer
    * @private
    */
-  _initializeRenderer() {
-    // This would be a more complex implementation to initialize WebGL/WebGPU
-    // For now we'll use a simple placeholder
-    this._renderState.renderer = {
-      render: (timestamp) => {
-        // Simple rendering logic
-        const ctx = this._renderState.canvas.getContext('2d');
-        
-        // Clear canvas
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        
-        // Make sure canvas size matches element
-        if (ctx.canvas.width !== this.clientWidth || ctx.canvas.height !== this.clientHeight) {
-          ctx.canvas.width = this.clientWidth;
-          ctx.canvas.height = this.clientHeight;
+  async _initializeRenderer() {
+    /**
+     * @private
+     * Initializes the rendering pipeline.
+     * Attempts to use WebGPU first. If WebGPU is not available or initialization fails,
+     * it falls back to a 2D canvas context using _initializeCanvas2DRenderer.
+     * This setup allows for progressive enhancement of rendering capabilities.
+     */
+    // Ensure canvas exists before attempting to get a context
+    if (!this._renderState.canvas) {
+        console.error(`${this.constructor.name}: Canvas element not found for renderer initialization.`);
+        this._renderState.renderMode = 'none'; // Indicate no renderer could be set up
+        return;
+    }
+
+    if (navigator.gpu) {
+      console.log(`${this.constructor.name}: WebGPU supported. Attempting to initialize WebGPU renderer...`);
+      try {
+        const adapter = await navigator.gpu.requestAdapter();
+        if (!adapter) {
+          throw new Error('No GPU adapter found. navigator.gpu.requestAdapter() returned null.');
         }
+        this._renderState.webgpu.device = await adapter.requestDevice();
+        const device = this._renderState.webgpu.device;
+
+        // Get the WebGPU rendering context from the canvas.
+        this._renderState.webgpu.context = this._renderState.canvas.getContext('webgpu');
+        const context = this._renderState.webgpu.context;
+
+        // Get the preferred canvas format for the presentation layer.
+        this._renderState.webgpu.presentationFormat = navigator.gpu.getPreferredCanvasFormat();
         
-        // Draw based on material and quantum state
-        this._drawQuantumMaterial(ctx, timestamp);
+        // Configure the WebGPU context for the canvas.
+        context.configure({
+          device,
+          format: this._renderState.webgpu.presentationFormat,
+          alphaMode: 'premultiplied', // Use 'premultiplied' for proper blending with DOM elements.
+        });
+
+        // Define a basic WebGPU render pipeline.
+        // This pipeline currently draws a simple triangle with a color based on the initial quantumPhase.
+        // It serves as a foundational setup for more complex shaders and rendering.
+        // NOTE: The quantumPhase is baked into the shader string at compile time here.
+        // For dynamic updates, this value should be passed via a uniform buffer.
+        this._renderState.webgpu.pipeline = device.createRenderPipeline({
+          layout: 'auto', // Automatically infer bind group layouts from shader.
+          vertex: {
+            module: device.createShaderModule({
+              code: `
+                // Basic Vertex Shader for WebGPU
+                // Outputs a predefined triangle.
+                @vertex
+                fn main(@builtin(vertex_index) vi : u32) -> @builtin(position) vec4<f32> {
+                  var pos = array<vec2<f32>, 3>(
+                    vec2<f32>(0.0, 0.5),  // Top center
+                    vec2<f32>(-0.5, -0.5), // Bottom left
+                    vec2<f32>(0.5, -0.5)   // Bottom right
+                  );
+                  return vec4<f32>(pos[vi], 0.0, 1.0);
+                }
+              `,
+            }),
+            entryPoint: 'main', // Entry point function in the vertex shader.
+          },
+          fragment: {
+            module: device.createShaderModule({
+              code: `
+                // Basic Fragment Shader for WebGPU
+                // Outputs a color based on the initial quantumPhase.
+                // NOTE: This phase value is fixed at pipeline creation time.
+                // For dynamic updates, use uniform buffers.
+                @fragment
+                fn main() -> @location(0) vec4<f32> {
+                  let initial_phase = ${this._quantumState.phase.toFixed(4)};
+                  return vec4<f32>(initial_phase, 1.0 - initial_phase, 0.5 + initial_phase * 0.5, 1.0);
+                }
+              `,
+            }),
+            entryPoint: 'main', // Entry point function in the fragment shader.
+            targets: [{ format: this._renderState.webgpu.presentationFormat }], // Match canvas context format.
+          },
+          primitive: {
+            topology: 'triangle-list', // Draw triangles.
+          },
+        });
+        
+        // For WebGPU mode, this._renderState.renderer now points to the WebGPU device.
+        // The actual rendering commands are issued in _renderWebGPUFrame.
+        this._renderState.renderer = this._renderState.webgpu.device;
+        this._renderState.renderMode = 'webgpu';
+        console.log(`${this.constructor.name}: WebGPU renderer initialized successfully. Render mode: webgpu`);
+
+      } catch (error) {
+        console.error(`${this.constructor.name}: WebGPU initialization failed:`, error);
+        // If WebGPU fails, fall back to the 2D canvas renderer.
+        this._initializeCanvas2DRenderer();
+      }
+    } else {
+      console.log(`${this.constructor.name}: WebGPU not supported by the browser. Falling back to 2D canvas renderer.`);
+      this._initializeCanvas2DRenderer();
+    }
+    
+    this._renderState.needsRender = true; // Trigger an initial render.
+  }
+
+  _initializeCanvas2DRenderer() {
+    /**
+     * @private
+     * Initializes the fallback 2D canvas renderer.
+     * This is used if WebGPU is not available or fails to initialize.
+     * The structure of this.renderer is an object with a 'render' method.
+     */
+    // Ensure canvas exists
+    if (!this._renderState.canvas) {
+        console.error(`${this.constructor.name}: Canvas element not found for 2D renderer initialization.`);
+        this._renderState.renderMode = 'none'; // Indicate no renderer could be set up
+        return;
+    }
+    const ctx = this._renderState.canvas.getContext('2d');
+    this._renderState.renderer = {
+      ctx: ctx,
+      ripples: [],
+      maxRipples: 10,
+      
+      createRipple: (x, y, options = {}) => {
+        const ripple = {
+          x, y,
+          radius: options.radius || 0,
+          maxRadius: options.maxRadius || 50,
+          speed: options.speed || 1,
+          color: options.color || 'rgba(255, 255, 255, 0.3)',
+          life: 0,
+          maxLife: options.maxLife || 60
+        };
+        // Manage ripples array
+        if (!this._renderState.renderer.ripples) this._renderState.renderer.ripples = []; // Ensure array exists
+        if (this._renderState.renderer.ripples.length >= this._renderState.renderer.maxRipples) {
+          this._renderState.renderer.ripples.shift();
+        }
+        this._renderState.renderer.ripples.push(ripple);
       },
       
-      createRipple: (x, y, options) => {
-        // Store ripple information to render in the animation loop
-        this._ripples = this._ripples || [];
-        this._ripples.push({
-          x,
-          y,
-          startTime: performance.now(),
-          duration: options.duration || 1000,
-          color: options.color || [1, 1, 1, 0.3],
-          spreadFactor: options.spreadFactor || 2.5
-        });
+      render: (timestamp) => {
+        // This 'render' method is called by _updateAnimation for 2D mode.
+        if (!this._renderState.canvas || !this._renderState.renderer || !this._renderState.renderer.ctx) return;
+
+        // Ripples might still need to animate even if needsRender is false for the main scene
+        const hasActiveRipples = this._renderState.renderer.ripples && this._renderState.renderer.ripples.length > 0;
+        if (!this._renderState.needsRender && !hasActiveRipples) return;
+
+        const { ctx } = this._renderState.renderer;
+        // Ensure canvas dimensions match the element's client dimensions.
+        if (this._renderState.canvas.width !== this.clientWidth || this._renderState.canvas.height !== this.clientHeight) {
+            this._renderState.canvas.width = this.clientWidth;
+            this._renderState.canvas.height = this.clientHeight;
+        }
+        if(this._renderState.canvas.width === 0 || this._renderState.canvas.height === 0) return;
+        
+        ctx.clearRect(0, 0, this._renderState.canvas.width, this._renderState.canvas.height);
+        // Call existing 2D drawing methods.
+        this._drawQuantumMaterial(ctx, timestamp); // Assumes _drawQuantumMaterial exists and is compatible
+        this._drawRipples(ctx, timestamp); // Assumes _drawRipples exists
+        this._drawQuantumNoise(ctx, timestamp); // Assumes _drawQuantumNoise exists
       }
     };
+    this._renderState.renderMode = '2d';
+    console.log(`${this.constructor.name}: Initialized 2D Canvas Renderer as fallback. Render mode: 2d`);
+  }
+
+  _renderWebGPUFrame() {
+    /**
+     * @private
+     * Renders a single frame using the WebGPU pipeline.
+     * This basic implementation clears the canvas and draws a triangle.
+     * Called by _updateAnimation when renderMode is 'webgpu'.
+     */
+    if (!this._renderState.webgpu.device || !this._renderState.webgpu.context || !this._renderState.webgpu.pipeline) {
+      console.warn(`${this.constructor.name}: WebGPU resources not ready for rendering.`);
+      return;
+    }
+
+    const canvas = this._renderState.canvas;
+    if (!canvas) {
+        console.warn(`${this.constructor.name}: WebGPU frame render: Canvas not found.`);
+        return;
+    }
     
-    // Initial render
-    this._renderState.needsRender = true;
+    if (canvas.width !== this.clientWidth || canvas.height !== this.clientHeight) {
+      canvas.width = this.clientWidth;
+      canvas.height = this.clientHeight;
+      // Note: For robust WebGPU resizing, context.configure() might need to be called again,
+      // or render targets/pipelines might need recreation if they depend on size.
+      // For this basic example, we assume the configured context handles it or the pipeline is size-agnostic.
+      // A more robust solution would check if the context needs reconfiguration.
+      if (this._renderState.webgpu.context && this._renderState.webgpu.device && this._renderState.webgpu.presentationFormat) {
+        try {
+            this._renderState.webgpu.context.configure({
+                device: this._renderState.webgpu.device,
+                format: this._renderState.webgpu.presentationFormat,
+                alphaMode: 'premultiplied',
+                // Optional: Add usage if needed, though usually inferred
+                // usage: GPUTextureUsage.RENDER_ATTACHMENT
+            });
+        } catch (e) {
+            console.error(`${this.constructor.name}: Error re-configuring WebGPU context on resize:`, e);
+            // Potentially fall back or stop rendering if configuration fails
+            return;
+        }
+      }
+    }
+    if(canvas.width === 0 || canvas.height === 0) return;
+
+    const device = this._renderState.webgpu.device;
+    const context = this._renderState.webgpu.context;
+    const pipeline = this._renderState.webgpu.pipeline;
+
+    const commandEncoder = device.createCommandEncoder();
+    const textureView = context.getCurrentTexture().createView();
+
+    const renderPassDescriptor = {
+      colorAttachments: [
+        {
+          view: textureView,
+          clearValue: { r: 0.05, g: 0.05, b: 0.1, a: 1.0 },
+          loadOp: 'clear',
+          storeOp: 'store',
+        },
+      ],
+    };
+
+    const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
+    passEncoder.setPipeline(pipeline);
+    passEncoder.draw(3, 1, 0, 0);
+    passEncoder.end();
+
+    device.queue.submit([commandEncoder.finish()]);
   }
   
   /**
@@ -831,10 +1038,24 @@ export class QuantumElement extends HTMLElement {
     // Update quantum state based on time
     this._updateQuantumStateOverTime(deltaTime);
     
-    // Render if needed
+    // Perform rendering based on the active renderMode.
     if (this._renderState.needsRender && this._renderState.renderer) {
-      this._renderState.renderer.render(timestamp);
+      if (this._renderState.renderMode === 'webgpu') {
+        // If WebGPU is active, call the WebGPU frame rendering function.
+        this._renderWebGPUFrame(); // This function handles its own logic including canvas size.
+      } else if (this._renderState.renderMode === '2d' && typeof this._renderState.renderer.render === 'function') {
+        // If 2D canvas is active and has a 'render' method, call it.
+        this._renderState.renderer.render(timestamp);
+      }
+      // Reset the needsRender flag after a frame is processed.
       this._renderState.needsRender = false;
+    } else if (this._renderState.renderMode === '2d' &&
+               this._renderState.renderer.ripples &&
+               this._renderState.renderer.ripples.length > 0 &&
+               typeof this._renderState.renderer.render === 'function') {
+      // For 2D mode, continue rendering if there are active ripples,
+      // even if needsRender is false, to ensure ripple animations complete.
+      this._renderState.renderer.render(timestamp);
     }
     
     // Schedule next frame

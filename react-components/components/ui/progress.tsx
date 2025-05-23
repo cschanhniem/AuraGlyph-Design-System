@@ -46,17 +46,18 @@ const Progress = React.forwardRef<
     ref
   ) => {
     // Connect to quantum system
-    const { 
-      ref: quantumRef, 
-      cssVariables, 
+    const {
+      ref: quantumRef,
+      cssVariables,
       energy,
       phase,
-      setEnergy
+      emitInteraction,
+      id
     } = useQuantum({
       id: quantumId,
       entanglement,
-      initialState: { 
-        energyLevel: typeof value === 'number' ? Math.min(value / 100, 1) : 0.2,
+      initialState: {
+        energy: typeof value === 'number' ? Math.min(value / 100, 1) : 0.2,
         phase: 0.2
       },
     });
@@ -64,9 +65,12 @@ const Progress = React.forwardRef<
     // Update quantum energy when value changes
     React.useEffect(() => {
       if (typeof value === 'number' && (quantumProp || variant !== "default")) {
-        setEnergy(Math.min(value / 100, 1));
+        // Use emitInteraction to update energy level
+        // The intensity parameter will control the energy level
+        const normalizedValue = Math.min(value / 100, 1);
+        emitInteraction('change', normalizedValue);
       }
-    }, [value, quantumProp, variant, setEnergy]);
+    }, [value, quantumProp, variant, emitInteraction]);
 
     // Combine refs
     const combinedRef = React.useCallback(
@@ -92,7 +96,7 @@ const Progress = React.forwardRef<
     // Determine quantum variant classes
     const getQuantumClass = () => {
       if (!isQuantumVariant) return "";
-      
+
       switch (variant) {
         case "quantum": return "quantum-progress";
         case "frost": return "quantum-progress-frost";
@@ -105,7 +109,7 @@ const Progress = React.forwardRef<
     // Determine depth class
     const getDepthClass = () => {
       if (!isQuantumVariant) return "";
-      
+
       switch (depth) {
         case "shallow": return "quantum-depth-1";
         case "medium": return "quantum-depth-2";
@@ -117,7 +121,7 @@ const Progress = React.forwardRef<
     // Determine luminance class
     const getLuminanceClass = () => {
       if (!isQuantumVariant) return "";
-      
+
       switch (luminance) {
         case "low": return "quantum-luminance-low";
         case "medium": return "quantum-luminance-medium";
@@ -129,7 +133,7 @@ const Progress = React.forwardRef<
     // Determine clarity class
     const getClarityClass = () => {
       if (!isQuantumVariant) return "";
-      
+
       switch (clarity) {
         case "low": return "quantum-clarity-low";
         case "medium": return "quantum-clarity-medium";
@@ -149,23 +153,23 @@ const Progress = React.forwardRef<
     };
 
     // Set up quantum animation class
-    const quantumAnimationClass = animate && isQuantumVariant 
+    const quantumAnimationClass = animate && isQuantumVariant
       ? (value === 100)
-        ? "animate-quantum-complete" 
-        : (value !== undefined && value > 0) 
-          ? "animate-quantum-progress" 
-          : "animate-quantum-pulse-slow" 
+        ? "animate-quantum-complete"
+        : (value !== undefined && value > 0)
+          ? "animate-quantum-progress"
+          : "animate-quantum-pulse-slow"
       : "";
 
     // CSS styles including quantum variables if needed
-    const style = isQuantumVariant 
-      ? { ...cssVariables as React.CSSProperties } 
+    const style = isQuantumVariant
+      ? { ...cssVariables as React.CSSProperties }
       : undefined;
 
     // Render different progress types
     if (type === "circular") {
       return (
-        <div 
+        <div
           ref={combinedRef}
           className={cn(
             "relative flex items-center justify-center",
@@ -180,13 +184,13 @@ const Progress = React.forwardRef<
           style={style}
           {...props}
         >
-          <svg 
+          <svg
             className={cn(
               "transform -rotate-90",
               size === "sm" && "w-12 h-12",
               size === "md" && "w-16 h-16",
               size === "lg" && "w-24 h-24"
-            )} 
+            )}
             viewBox="0 0 100 100"
           >
             {/* Background circle */}
@@ -229,9 +233,9 @@ const Progress = React.forwardRef<
             />
           </svg>
           {isQuantumVariant && (
-            <div 
-              className="absolute inset-0 quantum-progress-glow" 
-              style={{ 
+            <div
+              className="absolute inset-0 quantum-progress-glow"
+              style={{
                 opacity: Math.min(energy * 0.4, 0.2),
                 transform: `scale(${1 + energy * 0.1})`,
               }}
@@ -249,7 +253,7 @@ const Progress = React.forwardRef<
       const dots = Array.from({ length: numberOfDots }).map((_, i) => {
         const isActive = value !== undefined ? (i + 1) <= Math.floor(value / (100 / numberOfDots)) : false;
         return (
-          <div 
+          <div
             key={i}
             className={cn(
               "rounded-full transition-all",
@@ -267,7 +271,7 @@ const Progress = React.forwardRef<
       });
 
       return (
-        <div 
+        <div
           ref={combinedRef}
           className={cn(
             "flex items-center justify-between",
@@ -309,14 +313,14 @@ const Progress = React.forwardRef<
             style={{ transform: `translateX(-${100 - (buffer || 0)}%)` }}
           />
         )}
-        
+
         {/* Main progress indicator */}
         <ProgressPrimitive.Indicator
           className={cn(
             "h-full w-full flex-1 bg-primary transition-all",
             isQuantumVariant && "quantum-progress-indicator"
           )}
-          style={{ 
+          style={{
             transform: `translateX(-${100 - (value || 0)}%)`,
             ...(isQuantumVariant ? {
               boxShadow: `0 0 ${energy * 10}px ${energy * 3}px rgba(var(--quantum-glow-color), ${energy * 0.2})`,

@@ -36,6 +36,8 @@ AuraGlyph sẽ tiến hóa từ một hệ thống thiết kế thông thường
 - Phát triển khung tương tác có khả năng phản hồi cao
 - Xây dựng thư viện chuyển động và hoạt ảnh cơ bản
 - Tích hợp các khối xây dựng cơ bản thành hệ thống spline
+*   **Initiate WebGPU Transition (Parallel WebGL/WebGPU Support)**: Begin the foundational work for integrating WebGPU, initially supporting it alongside WebGL to ensure a smooth transition. This includes research, prototyping, and internal tooling development.
+*   **Implement Basic AI-Driven Context Awareness**: Develop and integrate initial AI capabilities to allow components and interfaces to adapt based on user context and behavior, enhancing usability and personalization.
 
 ### 2025 Quý 3-4: Các Thành phần Thích ứng
 - Xây dựng bộ thành phần UI với "vật liệu thông minh"

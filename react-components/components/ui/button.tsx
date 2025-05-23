@@ -3,6 +3,28 @@ import { type VariantProps, cva } from 'class-variance-authority';
 import { useQuantum } from '../../quantum/use-quantum';
 import type { QuantumProps } from '../../quantum/types';
 
+// Define time-based contexts
+enum TimeOfDay {
+  Morning = 'Morning', // 5 AM - 12 PM
+  Afternoon = 'Afternoon', // 12 PM - 6 PM
+  Evening = 'Evening', // 6 PM - 10 PM
+  Night = 'Night', // 10 PM - 5 AM
+}
+
+// Helper function to get the current time of day
+const getCurrentTimeOfDay = (): TimeOfDay => {
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 12) {
+    return TimeOfDay.Morning;
+  } else if (hour >= 12 && hour < 18) {
+    return TimeOfDay.Afternoon;
+  } else if (hour >= 18 && hour < 22) {
+    return TimeOfDay.Evening;
+  } else {
+    return TimeOfDay.Night;
+  }
+};
+
 const buttonVariants = cva(
   'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50',
   {
@@ -49,6 +71,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       emotionalSensitivity,
       animate = true,
       asChild = false,
+      children, // Destructure children
       ...props
     },
     ref
@@ -62,13 +85,70 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       animate,
     });
 
+    // State for current time of day context
+    const [currentTimeOfDay, setCurrentTimeOfDay] = React.useState<TimeOfDay>(getCurrentTimeOfDay());
+
+    // Effect to update time of day context periodically (e.g., every minute)
+    // For demo purposes, this updates on mount. In a real app, consider more sophisticated updates.
+    React.useEffect(() => {
+      const updateContext = () => {
+        setCurrentTimeOfDay(getCurrentTimeOfDay());
+      };
+      // Initial check
+      updateContext();
+      // Optionally, set an interval to update the context, e.g., every minute
+      // const intervalId = setInterval(updateContext, 60000);
+      // return () => clearInterval(intervalId);
+    }, []);
+
+    // Determine button text/icon based on context
+    const getContextualContent = () => {
+      // If children are provided, use them directly
+      if (children) {
+        return children;
+      }
+      // Otherwise, provide default contextual content
+      switch (currentTimeOfDay) {
+        case TimeOfDay.Morning:
+          return (
+            <>
+              {/* Placeholder for Sun icon */}
+              <span>☀️</span> Start Fresh
+            </>
+          );
+        case TimeOfDay.Afternoon:
+          return (
+            <>
+              {/* Placeholder for Briefcase icon */}
+              <span>💼</span> Get Productive
+            </>
+          );
+        case TimeOfDay.Evening:
+          return (
+            <>
+              {/* Placeholder for Moon icon */}
+              <span>🌙</span> Wind Down
+            </>
+          );
+        case TimeOfDay.Night:
+          return (
+            <>
+              {/* Placeholder for Zzz icon */}
+              <span>😴</span> Rest Well
+            </>
+          );
+        default:
+          return 'Button'; // Default text if no context matches
+      }
+    };
+
     // Compute dynamic classes based on quantum state
     const dynamicClasses = React.useMemo(() => {
       if (!quantum_.state) return '';
 
-      const intensityClass = quantum_.energy > 0.7 
-        ? 'shadow-lg scale-105' 
-        : quantum_.energy > 0.3 
+      const intensityClass = quantum_.energy > 0.7
+        ? 'shadow-lg scale-105'
+        : quantum_.energy > 0.3
           ? 'shadow-md scale-102'
           : '';
 
@@ -112,7 +192,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         onBlur={() => handleInteraction('blur')}
         style={quantum_.cssVariables as React.CSSProperties}
         {...props}
-      />
+      >
+        {getContextualContent()}
+      </button>
     );
   }
 );

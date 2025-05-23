@@ -4,7 +4,9 @@ const config: Config = {
   darkMode: ['class'],
   content: [
     './src/**/*.{ts,tsx}',
-    '../react-components/**/*.{ts,tsx}',
+    '../react-components/components/**/*.{ts,tsx}',
+    '../react-components/quantum/**/*.{ts,tsx}',
+    '../react-components/lib/**/*.{ts,tsx}',
   ],
   theme: {
     container: {
@@ -63,8 +65,8 @@ const config: Config = {
       },
       keyframes: {
         'quantum-pulse': {
-          '0%, 100%': { transform: 'scale(1)' },
-          '50%': { transform: 'scale(1.05)' },
+          '0%, 100%': { transform: 'scale(1)', opacity: '1' },
+          '50%': { transform: 'scale(1.05)', opacity: '0.9', filter: 'brightness(1.1)' },
         },
         'quantum-spin': {
           from: { transform: 'rotate(0deg)' },
@@ -74,11 +76,46 @@ const config: Config = {
           from: { opacity: '0' },
           to: { opacity: '1' },
         },
+        'quantum-breathe': {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.02)' },
+        },
+        'shimmer': {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+        'entanglement-pulse': {
+          '0%, 100%': { opacity: '0.2' },
+          '50%': { opacity: '0.8' },
+        },
+        'fade-in': {
+          from: { opacity: '0', transform: 'translateY(10px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
+        },
+        'fade-out': {
+          from: { opacity: '1', transform: 'translateY(0)' },
+          to: { opacity: '0', transform: 'translateY(10px)' },
+        },
+        'progress-shimmer': {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+        'complete-pulse': {
+          '0%, 100%': { boxShadow: '0 0 0 rgba(var(--primary), 0)' },
+          '50%': { boxShadow: '0 0 20px rgba(var(--primary), 0.5)' },
+        },
       },
       animation: {
         'quantum-pulse': 'quantum-pulse 2s infinite',
         'quantum-spin': 'quantum-spin 4s linear infinite',
         'quantum-fade': 'quantum-fade 0.3s ease-in-out',
+        'quantum-breathe': 'quantum-breathe 4s infinite',
+        'quantum-shimmer': 'shimmer 2s infinite',
+        'quantum-entanglement': 'entanglement-pulse 2s infinite',
+        'quantum-fade-in': 'fade-in 0.3s ease-in-out forwards',
+        'quantum-fade-out': 'fade-out 0.3s ease-in-out forwards',
+        'quantum-progress': 'progress-shimmer 2s infinite',
+        'quantum-complete': 'complete-pulse 1s ease-in-out',
       },
     },
   },

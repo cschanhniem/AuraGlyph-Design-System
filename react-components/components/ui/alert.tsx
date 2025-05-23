@@ -92,16 +92,16 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
       : variant;
 
     // Connect to quantum system if quantum prop is true
-    const { 
-      ref: quantumRef, 
-      cssVariables, 
-      emitInteraction, 
-      energy 
+    const {
+      ref: quantumRef,
+      cssVariables,
+      emitInteraction,
+      energy
     } = useQuantum({
       id: quantumId,
       entanglement,
-      initialState: { 
-        energyLevel: severity === "error" || severity === "warning" ? 0.9 : 0.7 
+      initialState: {
+        energy: severity === "error" || severity === "warning" ? 0.9 : 0.7
       },
       onInteraction: (state) => {
         // Optional callback for interaction state changes
@@ -151,17 +151,17 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
     const isQuantumVariant = variant?.toString().startsWith("quantum") || quantumProp;
 
     // Set up quantum animation class
-    const quantumAnimationClass = animate && isQuantumVariant 
-      ? (severity === "error" || severity === "warning") 
-        ? "animate-quantum-pulse-fast" 
-        : energy > 0.7 
-          ? "animate-quantum-pulse" 
-          : "animate-quantum-breathe" 
+    const quantumAnimationClass = animate && isQuantumVariant
+      ? (severity === "error" || severity === "warning")
+        ? "animate-quantum-pulse-fast"
+        : energy > 0.7
+          ? "animate-quantum-pulse"
+          : "animate-quantum-breathe"
       : "";
 
     // CSS styles including quantum variables if needed
-    const style = isQuantumVariant 
-      ? { ...cssVariables as React.CSSProperties } 
+    const style = isQuantumVariant
+      ? { ...cssVariables as React.CSSProperties }
       : undefined;
 
     return (
@@ -169,12 +169,12 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         ref={combinedRef}
         role="alert"
         className={cn(
-          alertVariants({ 
-            variant: finalVariant, 
-            depth, 
-            luminance, 
-            clarity, 
-            quantum: quantumProp 
+          alertVariants({
+            variant: finalVariant,
+            depth,
+            luminance,
+            clarity,
+            quantum: quantumProp
           }),
           quantumAnimationClass,
           className
